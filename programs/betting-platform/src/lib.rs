@@ -15,7 +15,7 @@ pub mod betting_platform {
         ctx: Context<CreateBet>,
         event_id: String,
         maker_side: u8,
-        multiplier: u32,
+        multiplier: u64,
     ) -> Result<()> {
         instructions::create_bet::handler(ctx, event_id, maker_side, multiplier)
     }

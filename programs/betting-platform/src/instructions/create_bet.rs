@@ -1,29 +1,29 @@
 use crate::utils::*;
-use anchor_lang::prelude::*;
 use anchor_lang::solana_program::program::invoke;
+use anchor_lang::{prelude::*, solana_program::system_instruction};
 
 pub fn handler(
     ctx: Context<CreateBet>,
     event_id: String,
     maker_side: u8,
-    multiplier: u32,
+    multiplier: u64,
 ) -> Result<()> {
     let bet_account = &mut ctx.accounts.bet_account;
     bet_account.event_id = event_id;
     bet_account.maker_side = maker_side;
-    bet_account.bet_status = BetStatus::InProgress;
-    bet_account.resolver = ctx.accounts.resolver.key();
+    bet_account.status = BetStatus::InProgress;
+    bet_account.bet_resolver = ctx.accounts.bet_resolver.key();
     bet_account.multiplier = multiplier;
 
     invoke(
         &system_instruction::transfer(
-            ctx.accounts.buyer.key,
-            ctx.accounts.seller.key,
-            ctx.accounts.escrow_info.list_price as u64,
+            ctx.accounts.initializer.key,
+            ctx.accounts.bet_resolver.key,
+            multiplier as u64,
         ),
         &[
-            ctx.accounts.buyer.to_account_info().clone(),
-            ctx.accounts.seller.clone(),
+            ctx.accounts.initializer.to_account_info().clone(),
+            ctx.accounts.bet_resolver.clone(),
             ctx.accounts.system_program.to_account_info().clone(),
         ],
     )?;
@@ -42,9 +42,9 @@ pub enum BetStatus {
 pub struct Bet {
     pub event_id: String,
     pub maker_side: u8,
-    pub multiplier: u32,
-    pub bet_status: BetStatus,
-    pub resolver: Pubkey,
+    pub multiplier: u64,
+    pub status: BetStatus,
+    pub bet_resolver: Pubkey,
 }
 
 #[derive(Accounts)]
@@ -58,12 +58,17 @@ pub struct CreateBet<'info> {
         payer = initializer,
     )]
     pub bet_account: Account<'info, Bet>,
-    pub resolver: AccountInfo<'info>,
+    /// CHECK: This is not dangerous because we don't read or write from this account
+    #[account(mut)]
+    pub bet_resolver: AccountInfo<'info>,
+    pub rent: Sysvar<'info, Rent>,
     pub system_program: Program<'info, System>,
 }
 
+const BET_EVENT_ID_SIZE: usize = 8;
+
 impl Bet {
     pub fn LEN() -> usize {
-        return PUBKEY + 200;
+        return DISCRIMINATOR + BET_EVENT_ID_SIZE + PUBKEY + U64 + U64 + U64;
     }
 }
