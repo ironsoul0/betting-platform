@@ -1,11 +1,12 @@
 use anchor_lang::prelude::*;
 
 pub mod instructions;
+pub mod states;
 pub mod utils;
 
 pub use instructions::*;
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+declare_id!("EHYykFDZW368xQjkfT8qgPvLL7K5A9vU8nobUSReJudq");
 
 #[program]
 pub mod betting_platform {
@@ -15,12 +16,16 @@ pub mod betting_platform {
         ctx: Context<CreateBet>,
         event_id: String,
         maker_side: u8,
-        multiplier: u64,
+        bet_size: u64,
     ) -> Result<()> {
-        instructions::create_bet::handler(ctx, event_id, maker_side, multiplier)
+        instructions::create_bet::handler(ctx, event_id, maker_side, bet_size)
     }
-    
-}
 
-#[derive(Accounts)]
-pub struct Initialize {}
+    pub fn match_bet(ctx: Context<MatchBet>) -> Result<()> {
+        instructions::match_bet::handler(ctx)
+    }
+
+    pub fn resolve_bet(ctx: Context<ResolveBet>, result_side: u8) -> Result<()> {
+        instructions::resolve_bet::handler(ctx, result_side)
+    }
+}

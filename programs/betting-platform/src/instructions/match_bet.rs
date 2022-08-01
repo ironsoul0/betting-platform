@@ -1,28 +1,20 @@
-use crate::states::*;
-use crate::utils::DEFAULT_TAKER;
+use crate::{states::*, utils::*};
 use anchor_lang::solana_program::program::invoke;
 use anchor_lang::{prelude::*, solana_program::system_instruction};
 
-pub fn handler(
-    ctx: Context<CreateBet>,
-    event_id: String,
-    maker_side: u8,
-    bet_size: u64,
-) -> Result<()> {
+pub fn handler(ctx: Context<MatchBet>) -> Result<()> {
     let bet_account = &mut ctx.accounts.bet_account;
-    bet_account.event_id = event_id;
-    bet_account.maker_side = maker_side;
-    bet_account.status = BetStatus::InProgress;
-    bet_account.bet_resolver = ctx.accounts.bet_resolver.key();
-    bet_account.bet_size = bet_size;
-    bet_account.maker = ctx.accounts.initializer.key();
-    bet_account.taker = Pubkey::new_from_array(DEFAULT_TAKER);
+
+    require!(
+        bet_account.status == BetStatus::InProgress,
+        ErrorCode::BetMatched
+    );
 
     invoke(
         &system_instruction::transfer(
             ctx.accounts.initializer.key,
             ctx.accounts.bet_resolver.key,
-            bet_size as u64,
+            TAKER_BET_SIZE + TAKER_FEE_SIZE as u64,
         ),
         &[
             ctx.accounts.initializer.to_account_info().clone(),
@@ -31,22 +23,26 @@ pub fn handler(
         ],
     )?;
 
+    bet_account.taker = ctx.accounts.initializer.key();
+    bet_account.status = BetStatus::Matched;
+
     Ok(())
 }
 
 #[derive(Accounts)]
-#[instruction(event_id: String)]
-pub struct CreateBet<'info> {
+pub struct MatchBet<'info> {
     #[account(mut)]
     pub initializer: Signer<'info>,
-    #[account(
-        init,
-        space = Bet::LEN,
-        payer = initializer,
-    )]
+    #[account(mut, constraint = bet_account.bet_resolver == bet_resolver.key())]
     pub bet_account: Account<'info, Bet>,
     /// CHECK: This is not dangerous because we don't read or write from this account
     #[account(mut)]
     pub bet_resolver: AccountInfo<'info>,
     pub system_program: Program<'info, System>,
+}
+
+#[error_code]
+pub enum ErrorCode {
+    #[msg("Can not match bet because it is filled already.")]
+    BetMatched,
 }
