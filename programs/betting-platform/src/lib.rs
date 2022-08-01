@@ -19,6 +19,7 @@ pub mod betting_platform {
     ) -> Result<()> {
         instructions::create_bet::handler(ctx, event_id, maker_side, multiplier)
     }
+    
 }
 
 #[derive(Accounts)]
