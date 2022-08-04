@@ -6,6 +6,7 @@ import {
   WalletMultiButton
 } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { CreateBetBtn } from "./CreateBetBtn";
 
 const Navigator: FunctionComponent = () => {
   const wallet = useWallet();
@@ -16,6 +17,7 @@ const Navigator: FunctionComponent = () => {
           PPX
         </Link>
       </div>
+      <CreateBetBtn/> 
       <WalletModalProvider>
         {wallet.connected ? <WalletDisconnectButton /> : <WalletMultiButton />}
       </WalletModalProvider>

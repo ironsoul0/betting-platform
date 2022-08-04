@@ -7,7 +7,6 @@ const Home: NextPage = () => {
     <div className='relative'>
         <div className='justify-center items-center mx-auto'>
             <Table />
-            <CreateBetBtn/> 
         </div>
     </div>
   )
