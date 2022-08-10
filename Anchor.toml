@@ -1,15 +1,19 @@
 [features]
 seeds = false
 skip-lint = false
+
 [programs.localnet]
 betting_platform = "2NTiJusDD3jS5CehvWskRbQQvshceFeZfRZbzKDrURty"
+
+[programs.devnet]
+betting_platform = "2BDbYV1ocs2S1PsYnd5c5mqtdLWGf5VbCYvf28rs9LGj"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
 cluster = "localnet"
-wallet = "/Users/ironsoul/.config/solana/id.json"
+wallet = "~/.config/solana/id.json"
 
 [scripts]
 test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"

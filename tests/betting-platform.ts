@@ -8,15 +8,16 @@ import { assert } from "chai";
 import { BettingPlatform } from "../target/types/betting_platform";
 
 const BET_EVENT_ID_SIZE = 8;
-const TAKER_BET_SIZE = 1e9;
-const TAKER_FEE_SIZE = 2e7;
+const TAKER_BET_SIZE = 1e8;
+const TAKER_FEE_SIZE = 2e6;
+const LAMPORTS_PER_SOL = 1e9;
 
 const getAirdrop = async (
   provider: AnchorProvider,
   pk: anchor.web3.PublicKey,
   amount: number
 ) => {
-  const airdropSig = await provider.connection.requestAirdrop(pk, amount * 1e9);
+  const airdropSig = await provider.connection.requestAirdrop(pk, amount * LAMPORTS_PER_SOL);
   const latestSellerBlockhash = await provider.connection.getLatestBlockhash();
   await provider.connection.confirmTransaction({
     blockhash: latestSellerBlockhash.blockhash,
@@ -38,7 +39,7 @@ describe("betting-platform", () => {
     const betResolver = anchor.web3.Keypair.generate();
     const betAccount = anchor.web3.Keypair.generate();
     const event_id = nanoid(BET_EVENT_ID_SIZE);
-    const betSize = new BN(3e9);
+    const betSize = new BN(3 * LAMPORTS_PER_SOL);
 
     await program.methods
       .createBet(event_id, 0, betSize)
@@ -80,7 +81,7 @@ describe("betting-platform", () => {
     const betResolver = anchor.web3.Keypair.generate();
     const betAccount = anchor.web3.Keypair.generate();
     const event_id = nanoid(BET_EVENT_ID_SIZE);
-    const betSize = new BN(3e9);
+    const betSize = new BN(3 * LAMPORTS_PER_SOL);
 
     await program.methods
       .createBet(event_id, 1, betSize)
@@ -145,7 +146,7 @@ describe("betting-platform", () => {
     const betResolver = anchor.web3.Keypair.generate();
     const betAccount = anchor.web3.Keypair.generate();
     const event_id = nanoid(BET_EVENT_ID_SIZE);
-    const betSize = new BN(3e9);
+    const betSize = new BN(3 * LAMPORTS_PER_SOL);
 
     await program.methods
       .createBet(event_id, 1, betSize)
@@ -228,7 +229,7 @@ describe("betting-platform", () => {
     const betResolver = anchor.web3.Keypair.generate();
     const betAccount = anchor.web3.Keypair.generate();
     const event_id = nanoid(BET_EVENT_ID_SIZE);
-    const betSize = new BN(3e9);
+    const betSize = new BN(3 * LAMPORTS_PER_SOL);
 
     await program.methods
       .createBet(event_id, 1, betSize)
