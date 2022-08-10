@@ -6,7 +6,7 @@ pub mod utils;
 
 pub use instructions::*;
 
-declare_id!("2NTiJusDD3jS5CehvWskRbQQvshceFeZfRZbzKDrURty");
+declare_id!("7Dc2Y5DXWizGvda3FsbuxcosYddPLV2mrSg2Vi79kHJN");
 
 #[program]
 pub mod betting_platform {
