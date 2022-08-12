@@ -27,7 +27,7 @@ export const config = {
   programID: new PublicKey(programID),
   IDL,
   connection: new Connection(clusterUrl),
-  apiUrl: "http://134.122.91.61:3001",
+  apiUrl: "https://ppx.ironsoul.lol",
 };
 
 export * from "./types";
