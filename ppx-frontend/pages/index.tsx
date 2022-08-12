@@ -24,6 +24,7 @@ const MatchRow = ({
   fetchMatches,
 }: MatchBets & { currentDate: Date; fetchMatches: () => Promise<void> }) => {
   const loadingBet = useRef<any>(null);
+  const [acceptedBet, setAcceptedBet] = useState<string | null>(null);
   const { wallet, program } = useSolana();
   const target = useMemo(() => new Date(match.date), [match.date]);
   const { days, hours, minutes, seconds, live } = useMemo(() => {
@@ -70,6 +71,7 @@ const MatchRow = ({
     (betAccount: BetAccount) => {
       return async () => {
         loadingBet.current = toast.loading("Accepting bet on-chain..");
+        setAcceptedBet(betAccount.publicKey.toString());
 
         try {
           await program.methods
@@ -92,6 +94,8 @@ const MatchRow = ({
             toast.dismiss(loadingBet.current);
             clearTimeout(id);
           }, 2000);
+
+          setAcceptedBet(null);
         }
 
         config.connection.onAccountChange(betAccount.publicKey, async () => {
@@ -105,6 +109,7 @@ const MatchRow = ({
             clearTimeout(id);
           }, 2000);
 
+          setAcceptedBet(null);
           fetchMatches();
         });
       };
@@ -143,7 +148,7 @@ const MatchRow = ({
           disabled={
             !wallet.connected ||
             !teamABet ||
-            loadingBet === teamA[0].publicKey.toString()
+            acceptedBet === teamA[0].publicKey.toString()
           }
           onClick={acceptBet(teamA[0])}
         >
@@ -154,7 +159,7 @@ const MatchRow = ({
           disabled={
             !wallet.connected ||
             !teamBBet ||
-            loadingBet === teamB[0].publicKey.toString()
+            acceptedBet === teamB[0].publicKey.toString()
           }
           onClick={acceptBet(teamB[0])}
         >
