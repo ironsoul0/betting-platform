@@ -2,7 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply text-white bg-gray-800
+}
 
-body{ 
-    @apply text-white bg-gray-800
+table td {
+  white-space: nowrap;
+}
+
+table th {
+  white-space: nowrap;
 }

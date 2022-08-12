@@ -1,26 +1,35 @@
-import { FunctionComponent } from "react";
-import Link from "next/link";
-import {
-  WalletModalProvider,
-  WalletDisconnectButton,
-  WalletMultiButton
-} from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { CreateBetBtn } from "./CreateBetBtn";
+import {
+  WalletDisconnectButton,
+  WalletModalProvider,
+  WalletMultiButton,
+} from "@solana/wallet-adapter-react-ui";
+import Link from "next/link";
+import { FunctionComponent } from "react";
 
 const Navigator: FunctionComponent = () => {
   const wallet = useWallet();
+
   return (
-    <div className="flex items-center justify-between flex-wrap p-6">
-      <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-        <Link href="/" passHref>
-          PPX
-        </Link>
+    <div className="flex items-center justify-between p-6">
+      <Link href="/" passHref>
+        <h1 className="text-2xl font-bold">PPX.GG</h1>
+      </Link>
+      <div className="flex items-center">
+        <button
+          type="button"
+          className="px-5 py-3 mr-2 text-sm font-medium text-white rounded-lg"
+        >
+          Create Bet
+        </button>
+        <WalletModalProvider>
+          {wallet.connected ? (
+            <WalletDisconnectButton />
+          ) : (
+            <WalletMultiButton />
+          )}
+        </WalletModalProvider>
       </div>
-      <CreateBetBtn/> 
-      <WalletModalProvider>
-        {wallet.connected ? <WalletDisconnectButton /> : <WalletMultiButton />}
-      </WalletModalProvider>
     </div>
   );
 };
