@@ -2,12 +2,16 @@ import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 
 import type { AppProps } from "next/app";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import { ToastContainer } from "react-toastify";
 
 import Navigator from "../components/Navigator";
-import { Wallet } from "../components/WalletProvider";
 import { ModalProvider } from "../config/context";
+
+const Wallet = dynamic(() => import("../components/WalletProvider"), {
+  ssr: false,
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -17,7 +21,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="description" content="PPX.GG | Betting made easy" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <ModalProvider>
         <ToastContainer />
         <div className="mx-auto max-w-7xl">

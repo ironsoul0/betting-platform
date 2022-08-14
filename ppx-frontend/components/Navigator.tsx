@@ -46,13 +46,7 @@ const Navigator: FunctionComponent = () => {
             </a>
           </Link>
         </div>
-        <WalletModalProvider>
-          {wallet.connected ? (
-            <WalletDisconnectButton />
-          ) : (
-            <WalletMultiButton />
-          )}
-        </WalletModalProvider>
+        {wallet.connected ? <WalletDisconnectButton /> : <WalletMultiButton />}
       </div>
     </div>
   );
