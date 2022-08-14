@@ -70,6 +70,8 @@ export const useUserBets = () => {
   const [bets, setBets] = useState<Bets | null>(null);
 
   const fetchBets = useCallback(async () => {
+    if (!program) return;
+
     const matches = (
       (await fetch(`${config.apiUrl}/matches`).then((data) =>
         data.json()

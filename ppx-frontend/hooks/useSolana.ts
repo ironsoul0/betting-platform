@@ -5,13 +5,17 @@ import { Connection } from "@solana/web3.js";
 import { useMemo } from "react";
 
 import { BettingPlatform, config } from "../config";
+import { useIsClient } from "./useIsClient";
 
 const connection = new Connection(config.clusterUrl);
 
 export const useSolana = () => {
   const wallet = useWallet();
+  const client = useIsClient();
 
   const provider = useMemo(() => {
+    if (!client) return null;
+
     const { signTransaction, signAllTransactions, publicKey } = wallet;
     const anchorProvider = new AnchorProvider(
       connection,
@@ -23,15 +27,17 @@ export const useSolana = () => {
     anchor.setProvider(anchorProvider);
 
     return anchorProvider;
-  }, [wallet]);
+  }, [wallet, client]);
 
   const program = useMemo(() => {
+    if (!provider || !client) return null;
+
     return new anchor.Program<BettingPlatform>(
       config.IDL,
       config.programID,
       provider
     );
-  }, [provider]);
+  }, [provider, client]);
 
   return { wallet, provider, program };
 };
