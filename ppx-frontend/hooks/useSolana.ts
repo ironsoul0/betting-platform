@@ -15,7 +15,6 @@ export const useSolana = () => {
 
   const provider = useMemo(() => {
     if (!client) return null;
-    console.log("provider?..");
 
     const { signTransaction, signAllTransactions, publicKey } = wallet;
     const anchorProvider = new AnchorProvider(
@@ -32,7 +31,6 @@ export const useSolana = () => {
 
   const program = useMemo(() => {
     if (!provider || !client) return null;
-    console.log("program?..");
 
     return new anchor.Program<BettingPlatform>(
       config.IDL,
