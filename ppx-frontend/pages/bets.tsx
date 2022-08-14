@@ -83,7 +83,7 @@ const Bets: NextPage = () => {
                     className="font-medium"
                     style={{ color: bet.statusColor }}
                   >
-                    {bet.textStatus}
+                    {bet.textStatus} {bet.result && ` - ${bet.result}`}
                   </span>
                 </p>
                 <p>

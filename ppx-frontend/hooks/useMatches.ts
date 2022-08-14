@@ -21,6 +21,7 @@ export type BetAccount = {
   taker: PublicKey;
   betResolver: PublicKey;
   betSize: anchor.BN;
+  resultSide: number;
   status: Record<string, never>;
 };
 

@@ -7,6 +7,7 @@ import { useSolana } from "./useSolana";
 type BetWithMatch = BetAccount & { match: Match } & {
   textStatus: string;
   statusColor: string;
+  result?: string;
 };
 
 export type Bets = {
@@ -16,7 +17,8 @@ export type Bets = {
 
 const mergeMatchAndBets = (
   accounts: BetAccount[],
-  matches: Match[]
+  matches: Match[],
+  taker: boolean
 ): BetWithMatch[] => {
   const getStatus = (account: BetAccount) => {
     if (account.status["inProgress"]) {
@@ -27,9 +29,26 @@ const mergeMatchAndBets = (
         statusColor: "yellow",
       };
     } else {
+      let result = "";
+
+      if (taker) {
+        if (account.makerSide === account.resultSide) {
+          result = "Won";
+        } else {
+          result = "Lost";
+        }
+      } else {
+        if (account.makerSide === account.resultSide) {
+          result = "Lost";
+        } else {
+          result = "Won";
+        }
+      }
+
       return {
         textStatus: "Completed and resolved",
         statusColor: "rgb(74, 222, 128)",
+        result,
       };
     }
   };
@@ -76,8 +95,8 @@ export const useUserBets = () => {
       }));
 
     setBets({
-      maker: mergeMatchAndBets(makerBets, matches),
-      taker: mergeMatchAndBets(takerBets, matches),
+      maker: mergeMatchAndBets(makerBets, matches, false),
+      taker: mergeMatchAndBets(takerBets, matches, true),
     });
   }, [program, wallet]);
 
