@@ -13,3 +13,11 @@ table td {
 table th {
   white-space: nowrap;
 }
+
+.wallet-adapter-button {
+  margin: 0 auto;
+}
+
+.wallet-adapter-button:hover {
+  background-color: #512da8 !important;
+}

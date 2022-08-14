@@ -21,6 +21,7 @@ export type BetAccount = {
   taker: PublicKey;
   betResolver: PublicKey;
   betSize: anchor.BN;
+  status: Record<string, never>;
 };
 
 export type MatchBets = {
@@ -35,7 +36,7 @@ export const useMatches = () => {
 
   const fetchMatches = useCallback(async () => {
     const matches = (
-      (await fetch(`${config.apiUrl}/matches`).then((data) =>
+      (await fetch(`${config.apiUrl}/matches?over=false`).then((data) =>
         data.json()
       )) as Match[]
     ).sort((x, y) => (x.date < y.date ? -1 : 1));

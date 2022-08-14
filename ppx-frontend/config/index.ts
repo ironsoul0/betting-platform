@@ -7,6 +7,7 @@ import { IDL } from "./types";
 
 const network = WalletAdapterNetwork.Devnet;
 const programID = "7Dc2Y5DXWizGvda3FsbuxcosYddPLV2mrSg2Vi79kHJN";
+const resolver = "Cmjy6gdANoviadAxkYdxBdmzLgsUDVdqrecJahM94Vzr";
 const clusterUrl = clusterApiUrl(WalletAdapterNetwork.Devnet);
 
 const leakedKp = anchor.web3.Keypair.fromSecretKey(
@@ -28,6 +29,7 @@ export const config = {
   IDL,
   connection: new Connection(clusterUrl),
   apiUrl: "https://ppx.ironsoul.lol",
+  betResolver: new PublicKey(resolver),
 };
 
 export * from "./types";

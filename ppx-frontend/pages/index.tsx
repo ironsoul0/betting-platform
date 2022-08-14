@@ -3,6 +3,7 @@ import type { NextPage } from "next";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
+import { BetModal } from "../components/BetModal";
 import { Spinner } from "../components/Spinner";
 import { config } from "../config";
 import { BetAccount, MatchBets, useMatches, useSolana } from "../hooks";
@@ -223,6 +224,7 @@ const Home: NextPage = () => {
           )}
         </div>
       </div>
+      <BetModal fetchMatches={fetchMatches} />
     </div>
   );
 };
