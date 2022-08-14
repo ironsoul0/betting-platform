@@ -58,7 +58,7 @@ const Bets: NextPage = () => {
           </div>
           <h2 className="mt-6 text-xl font-medium md:text-2xl">Maker side</h2>
           <div className="mt-6 grid md:grid-cols-2 gap-5 grid-cols-1">
-            {bets.taker.length === 0 && <p>No bets on maker side</p>}
+            {bets.maker.length === 0 && <p>No bets on maker side</p>}
             {bets.maker.map((bet, i) => (
               <div key={i} className="px-4 py-4 border rounded-md">
                 <p>
