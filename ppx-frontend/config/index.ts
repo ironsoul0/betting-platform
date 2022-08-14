@@ -6,7 +6,7 @@ import { clusterApiUrl, Connection, PublicKey } from "@solana/web3.js";
 import { IDL } from "./types";
 
 const network = WalletAdapterNetwork.Devnet;
-const programID = "7Dc2Y5DXWizGvda3FsbuxcosYddPLV2mrSg2Vi79kHJN";
+const programID = "2DigHbrXoJsqL5ia4rg2k9cGtyQVyWgXJhg7USqoQ46R";
 const resolver = "Cmjy6gdANoviadAxkYdxBdmzLgsUDVdqrecJahM94Vzr";
 const clusterUrl = clusterApiUrl(WalletAdapterNetwork.Devnet);
 
