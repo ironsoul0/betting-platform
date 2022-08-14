@@ -21,6 +21,8 @@ export const BetModal: React.FC<{ fetchMatches?: () => Promise<void> }> = ({
   const loadingBet = useRef<any>(null);
 
   const createBet = useCallback(async () => {
+    if (!program) return;
+
     if (!matchChoice || makerSide === null || multiplier === null) return;
 
     loadingBet.current = toast.loading("Creating bet on-chain..");

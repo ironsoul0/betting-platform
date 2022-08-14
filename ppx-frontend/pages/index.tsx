@@ -71,6 +71,8 @@ const MatchRow = ({
   const acceptBet = useCallback(
     (betAccount: BetAccount) => {
       return async () => {
+        if (!program) return;
+
         loadingBet.current = toast.loading("Accepting bet on-chain..");
         setAcceptedBet(betAccount.publicKey.toString());
 
