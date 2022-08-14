@@ -3,10 +3,10 @@ seeds = false
 skip-lint = false
 
 [programs.localnet]
-betting_platform = "2DigHbrXoJsqL5ia4rg2k9cGtyQVyWgXJhg7USqoQ46R"
+betting_platform = "D4UrKTKSAjFvqxAWvgJS1HUfegGDwpks5EjP5VEWwGHf"
 
 [programs.devnet]
-betting_platform = "2DigHbrXoJsqL5ia4rg2k9cGtyQVyWgXJhg7USqoQ46R"
+betting_platform = "D4UrKTKSAjFvqxAWvgJS1HUfegGDwpks5EjP5VEWwGHf"
 
 [registry]
 url = "https://api.apr.dev"
