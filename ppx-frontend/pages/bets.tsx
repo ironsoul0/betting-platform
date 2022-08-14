@@ -48,6 +48,13 @@ const Bets: NextPage = () => {
                   </span>
                 </p>
                 <p>
+                  Betting on win of:
+                  <span className="font-medium">
+                    {" "}
+                    {bet.makerSide === 0 ? bet.match.team1 : bet.match.team2}
+                  </span>
+                </p>
+                <p>
                   Bet multiplier:{" "}
                   {((bet.betSize.toNumber() / LAMPORTS_PER_SOL) * 10).toFixed(
                     2
@@ -84,6 +91,13 @@ const Bets: NextPage = () => {
                     style={{ color: bet.statusColor }}
                   >
                     {bet.textStatus} {bet.result && ` - ${bet.result}`}
+                  </span>
+                </p>
+                <p>
+                  Market making on win of:
+                  <span className="font-medium">
+                    {" "}
+                    {bet.makerSide === 0 ? bet.match.team1 : bet.match.team2}
                   </span>
                 </p>
                 <p>
