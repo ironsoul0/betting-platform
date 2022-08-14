@@ -2,6 +2,7 @@ import {
   ConnectionProvider,
   WalletProvider,
 } from "@solana/wallet-adapter-react";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import {
   LedgerWalletAdapter,
   PhantomWalletAdapter,
@@ -38,7 +39,7 @@ const Wallet: FunctionComponent = (props) => {
   return (
     <ConnectionProvider endpoint={config.clusterUrl}>
       <WalletProvider wallets={wallets} autoConnect>
-        {props.children}
+        <WalletModalProvider>{props.children}</WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
   );
