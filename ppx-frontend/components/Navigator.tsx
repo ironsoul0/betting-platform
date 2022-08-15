@@ -15,11 +15,12 @@ const Navigator: FunctionComponent = () => {
   return (
     <div className="items-center justify-between p-6 md:flex">
       <Link href="/" passHref>
-        <img
-          src="/PPX.png"
-          alt="PPX"
-          className="w-16 mx-auto cursor-pointer md:mx-0"
-        />
+        <div className="cursor-pointer">
+          <img src="/PPX.png" alt="PPX" className="w-16 mx-auto md:mx-0" />
+          <p className="mt-1 text-sm text-center medium md:text-left">
+            Currently on Devnet
+          </p>
+        </div>
       </Link>
       <div className="items-center justify-between md:flex">
         <div className="flex justify-center mx-auto my-3 md:my-0">

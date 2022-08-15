@@ -1,3 +1,4 @@
+import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { useCallback, useEffect, useState } from "react";
 
 import { config } from "../config";
@@ -22,13 +23,20 @@ const mergeMatchAndBets = (
 ): BetWithMatch[] => {
   const getStatus = (account: BetAccount) => {
     if (account.status["inProgress"]) {
-      return { textStatus: "Awaiting taker", statusColor: "red" };
+      return { textStatus: "Awaiting taker", statusColor: "cyan" };
     } else if (account.status["matched"]) {
       return {
         textStatus: "Matched, awaiting game result",
         statusColor: "yellow",
       };
     } else {
+      if (account.taker.toString() == config.defaultTaker.toString()) {
+        return {
+          textStatus: "Completed with no taker found",
+          statusColor: "cyan",
+        };
+      }
+
       let result = "";
 
       if (taker) {
@@ -47,7 +55,7 @@ const mergeMatchAndBets = (
 
       return {
         textStatus: "Completed and resolved",
-        statusColor: "rgb(74, 222, 128)",
+        statusColor: result === "Won" ? "rgb(74, 222, 128)" : "red",
         result,
       };
     }
