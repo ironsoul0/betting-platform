@@ -1,9 +1,13 @@
+import * as anchor from "@project-serum/anchor";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { useCallback, useEffect, useState } from "react";
 
 import { config } from "../config";
 import { BetAccount, Match } from "./useMatches";
 import { useSolana } from "./useSolana";
+
+const TAKER_BET_SIZE = new anchor.BN(1e8);
+const TAKER_FEE_SIZE = new anchor.BN(2e6);
 
 type BetWithMatch = BetAccount & { match: Match } & {
   textStatus: string;
@@ -12,15 +16,21 @@ type BetWithMatch = BetAccount & { match: Match } & {
 };
 
 export type Bets = {
-  maker: BetWithMatch[];
-  taker: BetWithMatch[];
+  maker: {
+    bets: BetWithMatch[];
+    pnl: number;
+  };
+  taker: {
+    bets: BetWithMatch[];
+    pnl: number;
+  };
 };
 
 const mergeMatchAndBets = (
   accounts: BetAccount[],
   matches: Match[],
   taker: boolean
-): BetWithMatch[] => {
+): { bets: BetWithMatch[]; pnl: number } => {
   const getStatus = (account: BetAccount) => {
     if (account.status["inProgress"]) {
       return { textStatus: "Awaiting taker", statusColor: "cyan" };
@@ -61,7 +71,7 @@ const mergeMatchAndBets = (
     }
   };
 
-  return accounts.map((account) => {
+  const bets = accounts.map((account) => {
     const validMatches = matches.filter(
       (match) => String(match.matchID) === account.eventId
     );
@@ -71,6 +81,27 @@ const mergeMatchAndBets = (
       match: validMatches[0],
     };
   });
+
+  let pnl = new anchor.BN(0.0);
+  bets.forEach((bet) => {
+    if (taker) {
+      if (bet.result === "Won") {
+        pnl = pnl.add(bet.betSize);
+        pnl = pnl.sub(TAKER_FEE_SIZE);
+      } else if (bet.result === "Lost") {
+        pnl = pnl.sub(TAKER_BET_SIZE);
+        pnl = pnl.sub(TAKER_FEE_SIZE);
+      }
+    } else {
+      if (bet.result === "Won") {
+        pnl = pnl.add(TAKER_BET_SIZE);
+      } else if (bet.result === "Lost") {
+        pnl = pnl.sub(bet.betSize);
+      }
+    }
+  });
+
+  return { bets, pnl: pnl.toNumber() / LAMPORTS_PER_SOL };
 };
 
 export const useUserBets = () => {
