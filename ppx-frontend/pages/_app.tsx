@@ -23,8 +23,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ConnectionProvider endpoint={config.clusterUrl}>
       <WalletProvider>
         <Head>
-          <title>PPX.GG</title>
-          <meta name="description" content="PPX.GG | Betting made easy" />
+          <title>PPX.BET</title>
+          <meta name="description" content="PPX.BET | Betting made easy" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <ModalProvider>

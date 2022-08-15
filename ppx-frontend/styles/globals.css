@@ -19,6 +19,5 @@ table th {
 }
 
 .wallet-adapter-button:hover {
-  /* background-color: #512da8 !important; */
   transition: bacground-color linear 200ms;
 }
