@@ -37,7 +37,7 @@ const About: NextPage = () => {
           href="https://twitter.com/PPXBet?s=20&t=Zjuk60SAH89bPvXt6V5Lwg/"
           target="_blank"
         >
-          <BsTwitter />
+          <BsTwitter size={28} />
         </a>
       </div>
     </div>
