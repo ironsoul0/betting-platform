@@ -5,7 +5,7 @@ import {
 } from "@solana/wallet-adapter-react-ui";
 import Link from "next/link";
 import { FunctionComponent } from "react";
-
+import { BsTwitter } from "react-icons/bs";
 import { useModalContext } from "../config/context";
 
 const Navigator: FunctionComponent = () => {
@@ -22,7 +22,16 @@ const Navigator: FunctionComponent = () => {
           </p>
         </div>
       </Link>
+
       <div className="items-center justify-between md:flex">
+        <div className="mr-6">
+          <a
+            href="https://twitter.com/PPXBet?s=20&t=Zjuk60SAH89bPvXt6V5Lwg/"
+            target="_blank"
+          >
+            <BsTwitter />
+          </a>
+        </div>
         <div className="flex justify-center mx-auto my-3 md:my-0">
           {wallet.connected && (
             <>
