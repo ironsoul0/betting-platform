@@ -1,6 +1,5 @@
 import { NextPage } from "next";
-
-import { BetModal } from "../components/BetModal";
+import { BsTwitter } from "react-icons/bs";
 
 const About: NextPage = () => {
   return (
@@ -32,7 +31,15 @@ const About: NextPage = () => {
           a market maker.
         </p>
       </div>
-      <BetModal />
+
+      <div className="flex items-center justify-center mt-10">
+        <a
+          href="https://twitter.com/PPXBet?s=20&t=Zjuk60SAH89bPvXt6V5Lwg/"
+          target="_blank"
+        >
+          <BsTwitter />
+        </a>
+      </div>
     </div>
   );
 };

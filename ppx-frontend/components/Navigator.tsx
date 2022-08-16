@@ -25,12 +25,12 @@ const Navigator: FunctionComponent = () => {
 
       <div className="items-center justify-between md:flex">
         <div className="mr-6">
-          <Link
+          <a
             href="https://twitter.com/PPXBet?s=20&t=Zjuk60SAH89bPvXt6V5Lwg/"
-            passHref
+            target="_blank"
           >
             <BsTwitter />
-          </Link>
+          </a>
         </div>
         <div className="flex justify-center mx-auto my-3 md:my-0">
           {wallet.connected && (
